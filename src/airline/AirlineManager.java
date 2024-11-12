@@ -21,6 +21,6 @@ public class AirlineManager {
 		PrivatePlane privatePlane = new PrivatePlane(0);
 		Reservation reservation = new Reservation(flight);
 		SeasonalDiscount seasonalDiscount = new SeasonalDiscount(null, null);
-		System.out.print("hello");
+		System.out.print("works");
 	}
 }
