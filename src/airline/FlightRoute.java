@@ -5,7 +5,7 @@ public class FlightRoute {
 
 	public FlightRoute(double distance) {
 		super();
-		this.distance = distance;
+		this.setDistance(distance);
 	}
 
 	public double getDistance() {
@@ -13,7 +13,9 @@ public class FlightRoute {
 	}
 
 	public void setDistance(double distance) {
-		this.distance = distance;
+		if (distance >= 0) {
+			this.distance = distance;
+		}
 	}
 
 }

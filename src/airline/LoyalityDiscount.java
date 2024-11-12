@@ -5,7 +5,7 @@ public class LoyalityDiscount {
 
 	public LoyalityDiscount(int minReservations) {
 		super();
-		this.minReservations = minReservations;
+		this.setMinReservations(minReservations);
 	}
 
 	public int getMinReservations() {
@@ -13,6 +13,8 @@ public class LoyalityDiscount {
 	}
 
 	public void setMinReservations(int minReservations) {
-		this.minReservations = minReservations;
+		if (minReservations >= 0) {
+			this.minReservations = minReservations;
+		}
 	}
 }

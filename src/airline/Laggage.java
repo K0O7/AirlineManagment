@@ -5,7 +5,7 @@ public class Laggage {
 
 	public Laggage(double maxWeight) {
 		super();
-		this.maxWeight = maxWeight;
+		this.setMaxWeight(maxWeight);
 	}
 
 	public double getMaxWeight() {
@@ -13,6 +13,8 @@ public class Laggage {
 	}
 
 	public void setMaxWeight(double maxWeight) {
-		this.maxWeight = maxWeight;
+		if (maxWeight >= 0) {
+			this.maxWeight = maxWeight;
+		}
 	}
 }

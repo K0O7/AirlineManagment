@@ -5,7 +5,7 @@ public class PrivatePlane {
 
 	public PrivatePlane(double price) {
 		super();
-		this.price = price;
+		this.setPrice(price);
 	}
 
 	public double getPrice() {
@@ -13,6 +13,8 @@ public class PrivatePlane {
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		if (price >= 0) {
+			this.price = price;
+		}
 	}
 }
