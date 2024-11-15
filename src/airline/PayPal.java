@@ -1,10 +1,10 @@
 package airline;
 
-public class PayPal {
+public class PayPal extends PaymentMethod {
 	private String payPalAcc;
-
-	public PayPal(String payPalAcc) {
-		super();
+	
+	public PayPal(boolean isActive, String payPalAcc) {
+		super(isActive);
 		this.payPalAcc = payPalAcc;
 	}
 

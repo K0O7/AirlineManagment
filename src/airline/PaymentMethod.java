@@ -1,7 +1,7 @@
 package airline;
 
-public class PaymentMethod {
-	private boolean isActive;
+public abstract class PaymentMethod {
+	protected boolean isActive;
 
 	public PaymentMethod(boolean isActive) {
 		super();

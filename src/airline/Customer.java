@@ -1,18 +1,23 @@
 package airline;
+import java.util.ArrayList;
 
-public class Customer {
-	private Reservation[] reservations;
+public class Customer extends Person {
+	private ArrayList<Reservation> reservations;
 
-	public Customer() {
-		super();
-		this.reservations = null;
+	public Customer(String name, String surname, ArrayList<Reservation> reservations) {
+		super(name, surname);
+		this.reservations = reservations;
 	}
 
-	public Reservation[] getReservations() {
+	public ArrayList<Reservation> getReservations() {
 		return reservations;
 	}
 
-	public void setReservations(Reservation[] reservations) {
+	public void setReservations(ArrayList<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+	
+	public void addReservation(Reservation reservation) {
+		this.reservations.add(reservation);
 	}
 }

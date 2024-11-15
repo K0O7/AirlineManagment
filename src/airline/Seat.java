@@ -1,5 +1,7 @@
 package airline;
 
+import java.util.Objects;
+
 public class Seat {
 	private double price;
 
@@ -16,5 +18,27 @@ public class Seat {
 		if (price >= 0) {
 			this.price = price;
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(price);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Seat other = (Seat) obj;
+		return Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price);
+	}
+
+	@Override
+	public String toString() {
+		return "Seat [price=" + price + "]";
 	}
 }

@@ -1,7 +1,7 @@
 package airline;
 
-public class Discount {
-	private int discountPercent;
+public abstract class Discount {
+	protected int discountPercent;
 
 	public Discount(int discountPercent) {
 		super();
@@ -16,5 +16,9 @@ public class Discount {
 		if (discountPercent >= 0 && discountPercent <= 100) {
 			this.discountPercent = discountPercent;
 		}
+	}
+	
+	public boolean checkEligibility(Reservation reservation) {
+		return false;
 	}
 }

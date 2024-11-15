@@ -1,11 +1,13 @@
 package airline;
 
-public class Person {
-	private String name;
+public abstract class Person {
+	protected String name;
+	protected String surname;
 
-	public Person(String name) {
+	public Person(String name, String surname) {
 		super();
-		this.name = name;
+		this.setName(name);
+		this.setSurname(surname);
 	}
 
 	public String getName() {
@@ -14,5 +16,13 @@ public class Person {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 }

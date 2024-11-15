@@ -1,11 +1,11 @@
 package airline;
 
-public class LoyalityDiscount {
+public class LoyalityDiscount extends Discount {
 	private int minReservations;
-
-	public LoyalityDiscount(int minReservations) {
-		super();
-		this.setMinReservations(minReservations);
+	
+	public LoyalityDiscount(int discountPercent, int minReservations) {
+		super(discountPercent);
+		this.minReservations = minReservations;
 	}
 
 	public int getMinReservations() {
@@ -16,5 +16,13 @@ public class LoyalityDiscount {
 		if (minReservations >= 0) {
 			this.minReservations = minReservations;
 		}
+	}
+
+	@Override
+	public boolean checkEligibility(Reservation reservation) {
+		if (this.minReservations < reservation.getCustomer().getReservations().size()) {
+			return true;
+		}
+		return false;
 	}
 }

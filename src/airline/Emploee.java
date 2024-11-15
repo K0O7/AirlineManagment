@@ -1,10 +1,10 @@
 package airline;
 
-public class Emploee {
+public class Emploee extends Person {
 	private String role;
 
-	public Emploee(String role) {
-		super();
+	public Emploee(String name, String surname, String role) {
+		super(name, surname);
 		this.role = role;
 	}
 

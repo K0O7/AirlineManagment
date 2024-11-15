@@ -1,10 +1,10 @@
 package airline;
 
-public class CreditCard {
+public class CreditCard extends PaymentMethod {
 	private String cardNumber;
 
-	public CreditCard(String cardNumber) {
-		super();
+	public CreditCard(boolean isActive, String cardNumber) {
+		super(isActive);
 		this.cardNumber = cardNumber;
 	}
 
