@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class PrivatePlane extends Airplane {
 	private double price;
+	private final static int PRIME = 21;
 	
 	public PrivatePlane(String model, double totalPrice, double price) {
 		super(model, totalPrice);
@@ -22,9 +23,8 @@ public class PrivatePlane extends Airplane {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(price);
+		result = PRIME * result + Objects.hash(price);
 		return result;
 	}
 

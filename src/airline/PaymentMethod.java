@@ -5,10 +5,10 @@ public abstract class PaymentMethod {
 
 	public PaymentMethod(boolean isActive) {
 		super();
-		this.isActive = isActive;
+		this.setActive(isActive);
 	}
 
-	public boolean isActive() {
+	public boolean getActive() {
 		return isActive;
 	}
 

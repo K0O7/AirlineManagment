@@ -29,8 +29,13 @@ public abstract class Airplane {
 	}
 
 	@Override
+	public String toString() {
+		return "Airplane [model=" + model + ", totalPirce=" + totalPirce + "]";
+	}
+
+	@Override
 	public int hashCode() {
-		return Objects.hash(model);
+		return Objects.hash(model, totalPirce);
 	}
 
 	@Override
@@ -42,12 +47,8 @@ public abstract class Airplane {
 		if (getClass() != obj.getClass())
 			return false;
 		Airplane other = (Airplane) obj;
-		return Objects.equals(model, other.model);
-	}
-
-	@Override
-	public String toString() {
-		return "Airplane [model=" + model + "]";
+		return Objects.equals(model, other.model)
+				&& Double.doubleToLongBits(totalPirce) == Double.doubleToLongBits(other.totalPirce);
 	}
 	
 }

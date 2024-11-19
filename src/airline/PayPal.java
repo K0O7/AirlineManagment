@@ -5,7 +5,7 @@ public class PayPal extends PaymentMethod {
 	
 	public PayPal(boolean isActive, String payPalAcc) {
 		super(isActive);
-		this.payPalAcc = payPalAcc;
+		this.setPayPalAcc(payPalAcc);
 	}
 
 	public String getPayPalAcc() {

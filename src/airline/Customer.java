@@ -6,7 +6,7 @@ public class Customer extends Person {
 
 	public Customer(String name, String surname, ArrayList<Reservation> reservations) {
 		super(name, surname);
-		this.reservations = reservations;
+		this.setReservations(reservations);
 	}
 
 	public ArrayList<Reservation> getReservations() {

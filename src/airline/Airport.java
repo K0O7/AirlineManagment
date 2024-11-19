@@ -5,7 +5,7 @@ public class Airport {
 
 	public Airport(String name) {
 		super();
-		this.name = name;
+		this.setName(name);
 	}
 
 	public String getName() {

@@ -5,7 +5,7 @@ public class CreditCard extends PaymentMethod {
 
 	public CreditCard(boolean isActive, String cardNumber) {
 		super(isActive);
-		this.cardNumber = cardNumber;
+		this.setCardNumber(cardNumber);
 	}
 
 	public String getCardNumber() {

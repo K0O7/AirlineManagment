@@ -9,10 +9,10 @@ public class Flight {
 
 	public Flight(FlightRoute route, Airplane airplane, Date departureTime, Date arrivalTime) {
 		super();
-		this.airplane = airplane;
-		this.route = route;
-		this.departureTime = departureTime;
-		this.arrivalTime = arrivalTime;
+		this.setAirplane(airplane);
+		this.setRoute(route);
+		this.setDepartureTime(departureTime);
+		this.setArrivalTime(arrivalTime);
 	}
 
 	public Airplane getAirplane() {

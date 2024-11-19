@@ -5,7 +5,7 @@ public class Emploee extends Person {
 
 	public Emploee(String name, String surname, String role) {
 		super(name, surname);
-		this.role = role;
+		this.setRole(role);
 	}
 
 	public String getRole() {

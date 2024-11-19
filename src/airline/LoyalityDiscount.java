@@ -5,7 +5,7 @@ public class LoyalityDiscount extends Discount {
 	
 	public LoyalityDiscount(int discountPercent, int minReservations) {
 		super(discountPercent);
-		this.minReservations = minReservations;
+		this.setMinReservations(minReservations);
 	}
 
 	public int getMinReservations() {

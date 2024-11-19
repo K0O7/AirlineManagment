@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class PassengerPlane extends Airplane {
 	private Seat[] seats;
+	private final static int PRIME = 31;
 	
 	public PassengerPlane(String model, double totalPrice, Seat[] seats) {
 		super(model, totalPrice);
@@ -20,9 +21,8 @@ public class PassengerPlane extends Airplane {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Arrays.hashCode(seats);
+		result = PRIME * result + Arrays.hashCode(seats);
 		return result;
 	}
 
