@@ -1,11 +1,12 @@
 package airline;
 import java.util.Date;
 
-public class Flight {
+public class Flight implements IIdentifiable, IReservable, ITrackable {
 	private FlightRoute route;
 	private Airplane airplane;
 	private Date departureTime;
 	private Date arrivalTime;
+	private String status;
 
 	public Flight(FlightRoute route, Airplane airplane, Date departureTime, Date arrivalTime) {
 		super();
@@ -13,6 +14,7 @@ public class Flight {
 		this.setRoute(route);
 		this.setDepartureTime(departureTime);
 		this.setArrivalTime(arrivalTime);
+		this.setStatus("Scheduled");
 	}
 
 	public Airplane getAirplane() {
@@ -45,5 +47,38 @@ public class Flight {
 
 	public void setRoute(FlightRoute route) {
 		this.route = route;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String getStatus() {
+        return status;
+	}
+
+	@Override
+	public void updateStatus(String status) {
+        this.status = status;
+        System.out.println("Flight status updated to: " + this.getStatus());
+	}
+
+	@Override
+	public boolean reserve() {
+        System.out.println("Flight reserved: " + this.getUniqueId());
+        return true;
+	}
+
+	@Override
+	public boolean cancelReservation() {
+        System.out.println("Flight reservation canceled: " + this.getUniqueId());
+        return true;
+	}
+
+	@Override
+	public String getUniqueId() {
+        return this.getRoute().getEndAirport().getUniqueId() + "-" + this.getDepartureTime().toString() + "-" + 
+        		this.getAirplane() + "-" + this.getRoute().getEndAirport().getUniqueId() + "-" + this.getArrivalTime().toString();
 	}
 }

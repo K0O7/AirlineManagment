@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Airplane {
 	protected String model;
-	protected double totalPirce;
+	protected double totalPrice;
 
 	public Airplane(String model, double totalPrice) {
 		super();
@@ -13,11 +13,11 @@ public abstract class Airplane {
 	}
 
 	public double getTotalPirce() {
-		return totalPirce;
+		return totalPrice;
 	}
 
 	public void setTotalPirce(double totalPirce) {
-		this.totalPirce = totalPirce;
+		this.totalPrice = totalPirce;
 	}
 
 	public String getModel() {
@@ -30,12 +30,12 @@ public abstract class Airplane {
 
 	@Override
 	public String toString() {
-		return "Airplane [model=" + model + ", totalPirce=" + totalPirce + "]";
+		return "Airplane [model=" + model + ", totalPirce=" + totalPrice + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(model, totalPirce);
+		return Objects.hash(model, totalPrice);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public abstract class Airplane {
 			return false;
 		Airplane other = (Airplane) obj;
 		return Objects.equals(model, other.model)
-				&& Double.doubleToLongBits(totalPirce) == Double.doubleToLongBits(other.totalPirce);
+				&& Double.doubleToLongBits(totalPrice) == Double.doubleToLongBits(other.totalPrice);
 	}
 	
 }

@@ -19,10 +19,15 @@ public class LoyalityDiscount extends Discount {
 	}
 
 	@Override
-	public boolean checkEligibility(Reservation reservation) {
+	public final boolean checkEligibility(Reservation reservation) {
 		if (this.minReservations < reservation.getCustomer().getReservations().size()) {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public double apply(double amount) {
+		return amount - (amount * this.discountPercent / 100);
 	}
 }

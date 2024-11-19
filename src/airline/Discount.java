@@ -1,24 +1,25 @@
 package airline;
 
-public abstract class Discount {
-	protected int discountPercent;
+public abstract class Discount implements IAppliable {
+	protected double discountPercent;
 
-	public Discount(int discountPercent) {
+	public Discount(double discountPercent) {
 		super();
 		this.setDiscountPercent(discountPercent);
 	}
 
-	public int getDiscountPercent() {
+	public double getDiscountPercent() {
 		return discountPercent;
 	}
 
-	public void setDiscountPercent(int discountPercent) {
+	public void setDiscountPercent(double discountPercent) {
 		if (discountPercent >= 0 && discountPercent <= 100) {
 			this.discountPercent = discountPercent;
 		}
 	}
 	
-	public boolean checkEligibility(Reservation reservation) {
-		return false;
-	}
+	public abstract boolean checkEligibility(Reservation reservation);
+	
+	 @Override
+	 public abstract double apply(double amount);
 }

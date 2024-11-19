@@ -36,9 +36,4 @@ public class Seat {
 		Seat other = (Seat) obj;
 		return Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price);
 	}
-
-	@Override
-	public String toString() {
-		return "Seat [price=" + price + "]";
-	}
 }

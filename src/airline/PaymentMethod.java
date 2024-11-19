@@ -1,6 +1,6 @@
 package airline;
 
-public abstract class PaymentMethod {
+public abstract class PaymentMethod implements ITransactionable {
 	protected boolean isActive;
 
 	public PaymentMethod(boolean isActive) {
@@ -16,4 +16,12 @@ public abstract class PaymentMethod {
 		this.isActive = isActive;
 	}
 	
+	@Override
+	public abstract boolean authorizePayment(double amount);
+
+	@Override
+	public abstract boolean refundPayment(double amount);
+
+	@Override
+	public abstract String getTransactionDetails();
 }

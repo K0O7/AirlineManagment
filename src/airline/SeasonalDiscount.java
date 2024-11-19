@@ -29,10 +29,15 @@ public class SeasonalDiscount extends Discount {
 	}
 
 	@Override
-	public boolean checkEligibility(Reservation reservation) {
+	public final boolean checkEligibility(Reservation reservation) {
 		if (reservation.getFlight().getDepartureTime().after(discountStart) && reservation.getFlight().getDepartureTime().before(discountEnd)) {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public double apply(double amount) {
+		return amount - (amount * this.discountPercent / 100);
 	}
 }

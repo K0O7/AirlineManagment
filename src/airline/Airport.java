@@ -1,11 +1,21 @@
 package airline;
 
-public class Airport {
+public class Airport implements IIdentifiable {
 	private String name;
+	private String location;
 
-	public Airport(String name) {
+	public Airport(String name, String location) {
 		super();
 		this.setName(name);
+		this.setLocation(location);
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getName() {
@@ -14,5 +24,10 @@ public class Airport {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getUniqueId() {
+		return this.name + "-" + this.location;
 	}
 }
