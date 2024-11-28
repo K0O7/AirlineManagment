@@ -1,0 +1,20 @@
+<project namespace = "homework">
+	<groupId>com.solvd</groupId>
+	<artifactId>airport</artifactId>
+	<version>0.5-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	
+	<properties>
+		<apache.version>1.0</apache.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>IO</artifactId>
+			<version>${apache.version}</version>			
+		</dependency>
+	</dependencies>
+
+
+</project>
