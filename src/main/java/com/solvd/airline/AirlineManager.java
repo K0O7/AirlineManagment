@@ -114,10 +114,3 @@ public class AirlineManager {
 		System.out.print("works");
 	}
 }
-
-
-/* 
-Create 5 custom exceptions.
-Handle exceptions in 2 ways.
-Use try-catch with resources.
-*/
