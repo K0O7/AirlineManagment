@@ -1,13 +1,14 @@
 package main.java.com.solvd.airline;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PrivatePlane extends Airplane {
 	private double price;
 	private final static int PRIME = 21;
 	
-	public PrivatePlane(String model, double totalPrice, double price) {
-		super(model, totalPrice);
+	public PrivatePlane(String model, double totalPrice, List<Emploee> emploees, double price) {
+		super(model, totalPrice, emploees);
 		this.setPrice(price);
 	}
 
@@ -30,6 +31,16 @@ public class PrivatePlane extends Airplane {
 	public void setModel(String model) {
 		this.model = model;
 		
+	}
+	
+	@Override
+	public List<Emploee> getEmploees() {
+		return this.emploees;
+	}
+
+	@Override
+	public void setEmploees(List<Emploee> emploees) {
+		this.emploees = emploees;
 	}
 
 	public double getPrice() {

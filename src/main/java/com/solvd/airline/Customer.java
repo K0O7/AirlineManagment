@@ -1,12 +1,13 @@
 package main.java.com.solvd.airline;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Customer extends Person {
-	private ArrayList<Reservation> reservations;
+	private List<Reservation> reservations;
 	private static final int PRIME = 31;
 
-	public Customer(String name, String surname, ArrayList<Reservation> reservations) {
+	public Customer(String name, String surname, List<Reservation> reservations) {
 		super(name, surname);
 		this.setReservations(reservations);
 	}
@@ -31,11 +32,11 @@ public class Customer extends Person {
 		this.surname = surname;
 	}
 
-	public ArrayList<Reservation> getReservations() {
+	public List<Reservation> getReservations() {
 		return reservations;
 	}
 
-	public void setReservations(ArrayList<Reservation> reservations) {
+	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
 	

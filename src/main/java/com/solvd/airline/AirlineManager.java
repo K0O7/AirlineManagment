@@ -33,8 +33,12 @@ public class AirlineManager {
 		//Discount discount = new Discount(0);
 		Airport airport = new Airport(null, null);
 		Customer customer = new Customer(null, null, new ArrayList<Reservation>());
-		Emploee emploee = new Emploee(null, null, null);
-		PrivatePlane privatePlane = new PrivatePlane(null, 0, 0);
+		Emploee emploee1 = new Emploee(null, null, null);
+		Emploee emploee2 = new Emploee(null, null, null);
+		List<Emploee> emploees = new ArrayList<Emploee>();
+		emploees.add(emploee1);
+		emploees.add(emploee2);
+		PrivatePlane privatePlane = new PrivatePlane(null, 0, emploees, 0);
 		
 		try {
 			CreditCard creditCard = new CreditCard(false, "1234567891234567");
@@ -77,8 +81,10 @@ public class AirlineManager {
 		try {
 			Seat seat1 = new Seat(0);
 			Seat seat2 = new Seat(0);
-			Seat[] seats = {seat1, seat2};
-			PassengerPlane passengerPlane = new PassengerPlane(null, 0, seats);
+			List<Seat> seats = new ArrayList<Seat>();
+			seats.add(seat1);
+			seats.add(seat2);
+			PassengerPlane passengerPlane = new PassengerPlane(null, 0, emploees, seats);
 		} catch (NegativeValueException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

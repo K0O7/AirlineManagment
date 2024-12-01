@@ -1,13 +1,14 @@
 package main.java.com.solvd.airline;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class PassengerPlane extends Airplane {
-	private Seat[] seats;
+	private List<Seat> seats;
 	private final static int PRIME = 31;
 	
-	public PassengerPlane(String model, double totalPrice, Seat[] seats) {
-		super(model, totalPrice);
+	public PassengerPlane(String model, double totalPrice, List<Emploee> emploees, List<Seat> seats) {
+		super(model, totalPrice, emploees);
 		this.setSeats(seats);
 	}
 	
@@ -32,18 +33,28 @@ public class PassengerPlane extends Airplane {
 		
 	}
 	
-	public Seat[] getSeats() {
+	@Override
+	public List<Emploee> getEmploees() {
+		return this.emploees;
+	}
+
+	@Override
+	public void setEmploees(List<Emploee> emploees) {
+		this.emploees = emploees;
+	}
+	
+	public List<Seat> getSeats() {
 		return seats;
 	}
 
-	public void setSeats(Seat[] seats) {
+	public void setSeats(List<Seat> seats) {
 		this.seats = seats;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = super.hashCode();
-		result = PRIME * result + Arrays.hashCode(seats);
+		result = PRIME * result + Objects.hash(seats);
 		return result;
 	}
 
@@ -56,12 +67,11 @@ public class PassengerPlane extends Airplane {
 		if (getClass() != obj.getClass())
 			return false;
 		PassengerPlane other = (PassengerPlane) obj;
-		return Arrays.equals(seats, other.seats);
+		return Objects.equals(seats, other.seats);
 	}
 
 	@Override
 	public String toString() {
-		return "PassengerPlane [seats=" + Arrays.toString(seats) + "]";
-	}
-	
+		return "PassengerPlane [seats=" + seats + "]";
+	}	
 }

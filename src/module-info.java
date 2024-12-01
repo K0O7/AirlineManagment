@@ -4,5 +4,5 @@
 /**
  * 
  */
-module homework2 {
+module homework {
 }
