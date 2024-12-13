@@ -1,8 +1,14 @@
 package main.java.com.solvd.airline;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
 
 public class AirlineManager {
 	
@@ -23,6 +29,40 @@ public class AirlineManager {
             }
         }
         return null; // Flight not found
+    }
+    
+    public static String readFile() {
+    	File file = new File("C:/tools/java-projects/homework/tekst.txt");
+    	String content = null;
+    	try {
+    		content = FileUtils.readFileToString(file, "UTF-8");
+    	} catch(IOException e) {
+    		System.out.print("no file to read");
+    	}
+    	return content;
+    }
+    
+    public static void saveFile(int number) {
+        try {
+            File outputFile = new File("C:/tools/java-projects/homework/uniqueWordCount.txt");
+            FileUtils.writeStringToFile(outputFile, "Number of unique words: " + number, "UTF-8");
+            System.out.println("Unique word count saved to file: " + "uniqueWordCount.txt");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
+    
+    public static int countUniqueWords(String input) {
+        String[] words = StringUtils.split(input);
+
+        Set<String> uniqueWords = new HashSet<>();
+
+        if (words != null) {
+            for (String word : words) {
+                uniqueWords.add(word.toLowerCase().replaceAll("[^a-zA-Z0-9]", ""));
+            }
+        }
+        return uniqueWords.size();
     }
     
 	@SuppressWarnings("unused")
@@ -117,6 +157,18 @@ public class AirlineManager {
 			System.out.println("Creating of new seasonal discount completed.");
 		}
 		
+		saveFile(countUniqueWords(readFile()));
+		
 		System.out.print("works");
 	}
 }
+/* 
+8
+Read text from the file and calculate the numbers of the unique words. Write the result to the file. 
+The main requirement is: using StringUtils and FileUtils to implement it with minimum lines of code.
+
+9
+Use at least 5 lambda functions from the java.util.function package.
+Create 3 custom Lambda functions with generics.
+Create 5 complex Enums(with fields, methods, blocks).
+*/

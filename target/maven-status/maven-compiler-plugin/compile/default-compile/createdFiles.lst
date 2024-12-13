@@ -24,6 +24,8 @@ main\java\com\solvd\airline\SeasonalDiscount.class
 main\java\com\solvd\airline\Flight.class
 main\java\com\solvd\airline\PayPal.class
 main\java\com\solvd\airline\IIdentifiable.class
+main\java\com\solvd\airline\LinkedList$Node.class
+main\java\com\solvd\airline\LinkedList.class
 main\java\com\solvd\airline\NegativeValueException.class
 main\java\com\solvd\airline\Airport.class
 main\java\com\solvd\airline\InvalidCreditCardNumberException.class
