@@ -1,6 +1,9 @@
 package main.java.com.solvd.airline;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class PayPal extends PaymentMethod {
+    private static final Logger logger = LogManager.getLogger(PayPal.class);
 	private String payPalAcc;
 	
 	public PayPal(boolean isActive, String payPalAcc) throws InvalidEmailException {
@@ -31,13 +34,13 @@ public final class PayPal extends PaymentMethod {
 
 	@Override
 	public boolean authorizePayment(double amount) {
-        System.out.println("PayPal payment of $" + amount + " authorized for " + payPalAcc);
+		logger.info("PayPal payment of $" + amount + " authorized for " + payPalAcc);
         return true;
 	}
 
 	@Override
 	public boolean refundPayment(double amount) {
-        System.out.println("PayPal refund of $" + amount + " processed for " + payPalAcc);
+		logger.info("PayPal refund of $" + amount + " processed for " + payPalAcc);
         return true;
 	}
 

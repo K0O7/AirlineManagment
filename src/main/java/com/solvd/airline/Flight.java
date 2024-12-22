@@ -1,7 +1,10 @@
 package main.java.com.solvd.airline;
 import java.util.Date;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Flight implements IIdentifiable, IReservable, ITrackable {
+    private static final Logger logger = LogManager.getLogger(Flight.class);
 	private FlightRoute route;
 	private Airplane airplane;
 	private Date departureTime;
@@ -61,21 +64,21 @@ public class Flight implements IIdentifiable, IReservable, ITrackable {
     public void updateStatus(String status) {
         try {
             this.status = FlightStatus.valueOf(status.toUpperCase());
-            System.out.println("Flight status updated to: " + this.getStatus().getDescription());
+            logger.info("Flight status updated to: " + this.getStatus().getDescription());
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid status: " + status);
+        	logger.info("Invalid status: " + status);
         }
     }
 
 	@Override
 	public boolean reserve() {
-        System.out.println("Flight reserved: " + this.getUniqueId());
+		logger.info("Flight reserved: " + this.getUniqueId());
         return true;
 	}
 
 	@Override
 	public boolean cancelReservation() {
-        System.out.println("Flight reservation canceled: " + this.getUniqueId());
+		logger.info("Flight reservation canceled: " + this.getUniqueId());
         return true;
 	}
 

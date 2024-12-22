@@ -1,6 +1,9 @@
 package main.java.com.solvd.airline;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Reservation {
+    private static final Logger logger = LogManager.getLogger(PayPal.class);
 	private Flight flight;
 	private Customer customer;
     private ReservationStatus status;
@@ -17,7 +20,7 @@ public class Reservation {
         try {
             this.customer.addReservation(this);
         } catch (DuplicateReservationException e) {
-            System.out.println(e.getMessage());
+        	logger.info(e.getMessage());
         }
 	}
 
@@ -84,22 +87,22 @@ public class Reservation {
 	    public void performAction() {
 	        switch (this) {
 	            case BOOKED:
-	                System.out.println("Reservation is now confirmed.");
+	            	logger.info("Reservation is now confirmed.");
 	                break;
 	            case CANCELLED:
-	                System.out.println("Reservation has been cancelled.");
+	            	logger.info("Reservation has been cancelled.");
 	                break;
 	            case COMPLETED:
-	                System.out.println("Reservation has been completed.");
+	            	logger.info("Reservation has been completed.");
 	                break;
 	            case PENDING:
-	                System.out.println("Reservation is still pending.");
+	            	logger.info("Reservation is still pending.");
 	                break;
 	            case CHECKED_IN:
-	                System.out.println("Reservation checked-in, ready for flight.");
+	            	logger.info("Reservation checked-in, ready for flight.");
 	                break;
 	            default:
-	                System.out.println("Unknown status.");
+	            	logger.info("Unknown status.");
 	        }
 	    }
 	}

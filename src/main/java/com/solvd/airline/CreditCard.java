@@ -1,7 +1,10 @@
 package main.java.com.solvd.airline;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class CreditCard extends PaymentMethod {
 	private String cardNumber;
+    private static final Logger logger = LogManager.getLogger(CreditCard.class);
 
 	public CreditCard(boolean isActive, String cardNumber) throws InvalidCreditCardNumberException {
 		super(isActive);
@@ -31,13 +34,13 @@ public final class CreditCard extends PaymentMethod {
 
 	@Override
 	public boolean authorizePayment(double amount) {
-		System.out.println("Credit Card payment of $" + amount + " authorized.");
+		logger.info("Credit Card payment of $" + amount + " authorized.");
 	    return true;
 	}
 
 	@Override
 	public boolean refundPayment(double amount) {
-        System.out.println("Credit Card refund of $" + amount + " processed.");
+		logger.info("Credit Card refund of $" + amount + " processed.");
         return true;
 	}
 
