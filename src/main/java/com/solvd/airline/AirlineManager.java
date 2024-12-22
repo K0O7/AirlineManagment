@@ -1,7 +1,9 @@
 package main.java.com.solvd.airline;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import main.java.com.solvd.airline.Airplane.Model;
 import main.java.com.solvd.airline.Reservation.ReservationStatus;
 
 
@@ -70,6 +73,58 @@ public class AirlineManager {
             }
         }
         return uniqueWords.size();
+    }
+    
+    public static void reflection() {
+        try {
+            Class<?> airportClass = Class.forName("main.java.com.solvd.airline.Airport");
+
+            System.out.println("Fields of Airport:");
+            Field[] fields = airportClass.getDeclaredFields();
+            for (Field field : fields) {
+                System.out.println("Field Name: " + field.getName());
+                System.out.println("Field Type: " + field.getType().getName());
+                System.out.println("Modifiers: " + Modifier.toString(field.getModifiers()));
+                System.out.println("---------------");
+            }
+
+            System.out.println("Constructors of Airport:");
+            Constructor<?>[] constructors = airportClass.getDeclaredConstructors();
+            for (Constructor<?> constructor : constructors) {
+                System.out.println("Constructor Name: " + constructor.getName());
+                System.out.println("Modifiers: " + Modifier.toString(constructor.getModifiers()));
+                System.out.println("Parameters: " + Arrays.toString(constructor.getParameterTypes()));
+                System.out.println("---------------");
+            }
+
+            System.out.println("Methods of Airport:");
+            Method[] methods = airportClass.getDeclaredMethods();
+            for (Method method : methods) {
+                System.out.println("Method Name: " + method.getName());
+                System.out.println("Return Type: " + method.getReturnType().getName());
+                System.out.println("Modifiers: " + Modifier.toString(method.getModifiers()));
+                System.out.println("Parameters: " + Arrays.toString(method.getParameterTypes()));
+                System.out.println("---------------");
+            }
+
+            Constructor<?> airportConstructor = airportClass.getConstructor(String.class, String.class);
+            Object airportInstance = airportConstructor.newInstance("John F. Kennedy", "New York");
+
+
+            Method getNameMethod = airportClass.getMethod("getName");
+            Object name = getNameMethod.invoke(airportInstance);
+            System.out.println("Airport Name: " + name);
+
+            Method getLocationMethod = airportClass.getMethod("getLocation");
+            Object location = getLocationMethod.invoke(airportInstance);
+            System.out.println("Airport Location: " + location);
+
+            Method getUniqueIdMethod = airportClass.getMethod("getUniqueId");
+            Object uniqueId = getUniqueIdMethod.invoke(airportInstance);
+            System.out.println("Airport Unique ID: " + uniqueId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     
@@ -279,6 +334,8 @@ public class AirlineManager {
 	    		.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
 	    airportFlightCounts.forEach((location, count) -> System.out.println(location + ": " + count));
+	    
+	    reflection();
 	}
 }
 /* 
