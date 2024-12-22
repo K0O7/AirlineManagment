@@ -6,7 +6,7 @@ public class Flight implements IIdentifiable, IReservable, ITrackable {
 	private Airplane airplane;
 	private Date departureTime;
 	private Date arrivalTime;
-	private String status;
+    private FlightStatus status;
 
 	public Flight(FlightRoute route, Airplane airplane, Date departureTime, Date arrivalTime) {
 		super();
@@ -14,7 +14,7 @@ public class Flight implements IIdentifiable, IReservable, ITrackable {
 		this.setRoute(route);
 		this.setDepartureTime(departureTime);
 		this.setArrivalTime(arrivalTime);
-		this.setStatus("Scheduled");
+		this.setStatus(FlightStatus.SCHEDULED);
 	}
 
 	public Airplane getAirplane() {
@@ -49,20 +49,23 @@ public class Flight implements IIdentifiable, IReservable, ITrackable {
 		this.route = route;
 	}
 	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@Override
-	public String getStatus() {
+    public FlightStatus getStatus() {
         return status;
-	}
-
-	@Override
-	public void updateStatus(String status) {
+    }
+	
+    private void setStatus(FlightStatus status) {
         this.status = status;
-        System.out.println("Flight status updated to: " + this.getStatus());
-	}
+    }
+
+    @Override
+    public void updateStatus(String status) {
+        try {
+            this.status = FlightStatus.valueOf(status.toUpperCase());
+            System.out.println("Flight status updated to: " + this.getStatus().getDescription());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid status: " + status);
+        }
+    }
 
 	@Override
 	public boolean reserve() {
@@ -82,5 +85,21 @@ public class Flight implements IIdentifiable, IReservable, ITrackable {
         		this.getAirplane() + "-" + this.getRoute().getEndAirport().getUniqueId() + "-" + this.getArrivalTime().toString();
 	}
 	
-	
+    public enum FlightStatus {
+        SCHEDULED("The flight is scheduled and on time"),
+        BOARDING("The flight is currently boarding"),
+        IN_FLIGHT("The flight is currently in the air"),
+        DELAYED("The flight is delayed"),
+        CANCELLED("The flight has been cancelled");
+
+        private final String description;
+
+        FlightStatus(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 }

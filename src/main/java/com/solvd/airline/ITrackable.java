@@ -1,6 +1,8 @@
 package main.java.com.solvd.airline;
 
+import main.java.com.solvd.airline.Flight.FlightStatus;
+
 public interface ITrackable {
-    String getStatus();
+    FlightStatus getStatus();
     void updateStatus(String status);
 }

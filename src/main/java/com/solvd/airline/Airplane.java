@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Airplane {
-	protected String model;
+	protected Model model;
 	protected double totalPrice;
 	protected List<Emploee> emploees;
 
-	public Airplane(String model, double totalPrice, List<Emploee> emploees) {
+	public Airplane(Model model, double totalPrice, List<Emploee> emploees) {
 		super();
 		this.setModel(model);
 		this.setTotalPirce(totalPrice);
@@ -18,9 +18,9 @@ public abstract class Airplane {
 
 	public abstract void setTotalPirce(double totalPirce);
 
-	public abstract String getModel();
+	public abstract Model getModel();
 
-	public abstract void setModel(String model);
+	public abstract void setModel(Model model);
 	
 	public abstract List<Emploee> getEmploees();
 	
@@ -48,5 +48,39 @@ public abstract class Airplane {
 		return Objects.equals(model, other.model)
 				&& Double.doubleToLongBits(totalPrice) == Double.doubleToLongBits(other.totalPrice);
 	}
+	
+	public enum Model {
+        BOEING_747("Boeing 747", 416, "Commercial"),
+        AIRBUS_A380("Airbus A380", 555, "Commercial"),
+        GULFSTREAM_G650("Gulfstream G650", 18, "Private"),
+        CESSNA_172("Cessna 172", 4, "General Aviation");
+
+        private final String name;
+        private final int capacity;
+        private final String category;
+
+        Model(String name, int capacity, String category) {
+            this.name = name;
+            this.capacity = capacity;
+            this.category = category;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getCapacity() {
+            return capacity;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String toString() {
+            return name + " (Capacity: " + capacity + ", Category: " + category + ")";
+        }
+    }
 	
 }

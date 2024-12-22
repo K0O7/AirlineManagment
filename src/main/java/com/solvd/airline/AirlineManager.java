@@ -2,12 +2,19 @@ package main.java.com.solvd.airline;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.*;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import main.java.com.solvd.airline.Reservation.ReservationStatus;
 
 
 public class AirlineManager {
@@ -64,14 +71,16 @@ public class AirlineManager {
         }
         return uniqueWords.size();
     }
+
     
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+			
 		//Airplane airplane = new Airplane(null);
 		//Person person = new Person(null);
 		//PaymentMethod paymentMethod = new PaymentMethod(true);
 		//Discount discount = new Discount(0);
-		Airport airport = new Airport(null, null);
+		Airport airport = new Airport("chopin", "poland");
 		Customer customer = new Customer(null, null, new ArrayList<Reservation>());
 		Emploee emploee1 = new Emploee(null, null, null);
 		Emploee emploee2 = new Emploee(null, null, null);
@@ -80,18 +89,21 @@ public class AirlineManager {
 		emploees.add(emploee2);
 		PrivatePlane privatePlane = new PrivatePlane(null, 0, emploees, 0);
 		
+		CreditCard creditCard = null;
 		try {
-			CreditCard creditCard = new CreditCard(false, "1234567891234567");
+			creditCard = new CreditCard(false, "1234567891234567");
 		} catch (InvalidCreditCardNumberException e) {
 			System.out.println(e.getMessage());
 		} finally {
 			System.out.println("Credit card validation process completed.");
 		}
 		
+		FlightRoute flightRoute = null;
+		Reservation reservation = null;
 		try {
-			FlightRoute flightRoute = new FlightRoute(0, airport, airport);
+			flightRoute = new FlightRoute(0, airport, airport);
 			Flight flight = new Flight(flightRoute, null, new Date(), new Date());
-			Reservation reservation = new Reservation(flight, customer);
+			reservation = new Reservation(flight, customer);
 		} catch (NegativeValueException  e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -116,15 +128,15 @@ public class AirlineManager {
 			System.out.println("Creating of new loyality discount completed.");
 		}
 		
-		
+		PassengerPlane passengerPlane;
 		Seat seat;
 		try {
-			Seat seat1 = new Seat(0);
-			Seat seat2 = new Seat(0);
+			Seat seat1 = new Seat(0, Seat.SeatClass.ECONOMY);
+			Seat seat2 = new Seat(0, Seat.SeatClass.BUSINESS);
 			List<Seat> seats = new ArrayList<Seat>();
 			seats.add(seat1);
 			seats.add(seat2);
-			PassengerPlane passengerPlane = new PassengerPlane(null, 0, emploees, seats);
+			passengerPlane = new PassengerPlane(null, 0, emploees, seats);
 		} catch (NegativeValueException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -160,15 +172,122 @@ public class AirlineManager {
 		saveFile(countUniqueWords(readFile()));
 		
 		System.out.print("works");
+		
+        Predicate<Flight> isDomestic = flight -> flight.getRoute().getEndAirport().getLocation().equals(flight.getRoute().getStartAirport().getLocation());
+
+        Function<Double, Double> applyDiscount = price -> price * 0.9; // 10% discount
+
+        Supplier<Airport> defaultAirport = () -> new Airport("Default Airport", "Location");
+
+        Consumer<Flight> printFlightDetails = flight -> System.out.println("Flight ID: " + flight.getUniqueId());
+
+        BiFunction<Double, Integer, Double> calculateTotal = (pricePerSeat, numSeats) -> pricePerSeat * numSeats;
+		
+        Airport airport2 = defaultAirport.get();
+        System.out.println("Default Airport: " + airport.getName());
+
+        Flight flight2;
+		try {
+			Seat seat1 = new Seat(0, Seat.SeatClass.ECONOMY);
+			Seat seat2 = new Seat(0, Seat.SeatClass.BUSINESS);
+			List<Seat> seats = new ArrayList<Seat>();
+			seats.add(seat1);
+			seats.add(seat2);
+			PassengerPlane passengerPlane2 = new PassengerPlane(null, 0, emploees, seats);
+			flight2 = new Flight(new FlightRoute(0, airport, airport), passengerPlane2, new Date(), new Date());
+			flights.add(flight2);
+			printFlightDetails.accept(flight2);
+			System.out.println("Is the flight domestic? " + isDomestic.test(flight2));
+		} catch (NegativeValueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println("Discounted Price: " + applyDiscount.apply(100.0));
+        System.out.println("Total Price: " + calculateTotal.apply(50.0, 2));
+        
+        Comparator<Flight> sortByDeparture = (f1, f2) -> f1.getDepartureTime().compareTo(f2.getDepartureTime());
+
+        BiFunction<Integer, Integer, Integer> addNumbers = (a, b) -> a + b;
+
+        Predicate<List<?>> isListEmpty = List::isEmpty;
+
+        System.out.println("Is flight list empty? " + isListEmpty.test(flights));
+        
+        
+        List<Flight> upcomingFlights = flights.stream()
+        		.filter(flight -> flight.getDepartureTime().after(new Date()))
+        	    .sorted(Comparator.comparing(Flight::getDepartureTime))
+        	    .collect(Collectors.toList());
+
+        upcomingFlights.forEach(flight -> System.out.println(flight.getUniqueId()));
+        	
+        Set<Airport> airports = new HashSet<>();
+        airports.add(airport2);
+        airports.add(airport);
+
+
+	    List<String> airportNames = airports.stream()
+	    		.filter(airport3 -> airport3.getLocation().equals("Poland"))
+	    		.map(Airport::getName)
+	    		.collect(Collectors.toList());
+	
+	    airportNames.forEach(System.out::println);
+	     
+	    List<Reservation> reservations = new ArrayList<>();
+	    reservations.add(reservation);
+
+	    List<String> flightCodes = reservations.stream()
+	    		.filter(reservation2 -> reservation2.getStatus() == ReservationStatus.BOOKED)
+	    		.map(reservation2 -> reservation2.getFlight().getUniqueId()) 
+	    		.collect(Collectors.toList()); 
+
+	    flightCodes.forEach(System.out::println);
+	    
+	    Set<Emploee> employees = new HashSet<>();
+	    employees.add(emploee2);
+	    employees.add(emploee1);
+
+	    employees.stream()
+	     	.sorted(Comparator.comparing(Emploee::getName))
+	     	.forEach(employee -> System.out.println(employee.getName()));
+	    
+	    List<Reservation> customerReservations = customer.getReservations();
+
+	    int totalReservations = customerReservations.stream()
+	        .filter(reservation2 -> reservation2.getCustomer().equals(customer))
+	        .mapToInt(reservation2 -> 1)
+	        .sum();
+
+	    System.out.println("Total reservations: " + totalReservations);
+	    
+	    List<CreditCard> creditCards = new ArrayList<>();
+	    creditCards.add(creditCard);
+
+	    long validCreditCardCount = creditCards.stream()
+	    		.filter(creditCard2 -> creditCard2.getActive())
+	    		.count();
+
+	    System.out.println("Valid Credit Cards: " + validCreditCardCount);
+	    
+	    List<FlightRoute> flightRoutes = new ArrayList<>();
+	    flightRoutes.add(flightRoute);
+
+	    Map<String, Long> airportFlightCounts = flightRoutes.stream()
+	    		.filter(route -> route.getStartAirport().getLocation().equals("poland") || 
+	                     route.getEndAirport().getLocation().equals("poland"))
+	    		.map(route -> route.getStartAirport().getLocation())
+	    		.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+	    airportFlightCounts.forEach((location, count) -> System.out.println(location + ": " + count));
 	}
 }
 /* 
-8
-Read text from the file and calculate the numbers of the unique words. Write the result to the file. 
-The main requirement is: using StringUtils and FileUtils to implement it with minimum lines of code.
-
-9
-Use at least 5 lambda functions from the java.util.function package.
-Create 3 custom Lambda functions with generics.
-Create 5 complex Enums(with fields, methods, blocks).
+switch all print with logger
+10
+Using reflection extract information(modifiers, return types, parameters, etc) about fields, constructors, methods. Create object and call method using the only reflection.
+11
+Create 2 Threads using Runnable and Thread.
+Create Connection Pool. Use collection from java.util.concurrent package. Connection class may be mocked. The pool should be threadsafe and lazy initialized.
+Initialize pool with 5 sizes. Load Connection Pool using threads and Thread Pool(7 threads). 5 threads should be able to get the connection. 2 Threads should wait for the next available connection. The program should wait as well.
+Implement 4th part but with IFuture and CompletableStage.
 */

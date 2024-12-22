@@ -7,7 +7,7 @@ public class PrivatePlane extends Airplane {
 	private double price;
 	private final static int PRIME = 21;
 	
-	public PrivatePlane(String model, double totalPrice, List<Emploee> emploees, double price) {
+	public PrivatePlane(Model model, double totalPrice, List<Emploee> emploees, double price) {
 		super(model, totalPrice, emploees);
 		this.setPrice(price);
 	}
@@ -23,12 +23,12 @@ public class PrivatePlane extends Airplane {
 	}
 
 	@Override
-	public String getModel() {
+	public Model getModel() {
 		return this.model;
 	}
 
 	@Override
-	public void setModel(String model) {
+	public void setModel(Model model) {
 		this.model = model;
 		
 	}

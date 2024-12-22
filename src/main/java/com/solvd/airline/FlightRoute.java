@@ -39,5 +39,4 @@ public class FlightRoute {
 		}
 		this.distance = distance;
 	}
-
 }
