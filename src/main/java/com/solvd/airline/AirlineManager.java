@@ -2,21 +2,15 @@ package main.java.com.solvd.airline;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import main.java.com.solvd.airline.Airplane.Model;
 import main.java.com.solvd.airline.Reservation.ReservationStatus;
 
 
@@ -129,7 +123,7 @@ public class AirlineManager {
 
     
 	@SuppressWarnings("unused")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 			
 		//Airplane airplane = new Airplane(null);
 		//Person person = new Person(null);
@@ -336,15 +330,107 @@ public class AirlineManager {
 	    airportFlightCounts.forEach((location, count) -> System.out.println(location + ": " + count));
 	    
 	    reflection();
+	    
+	    ConnectionPool connectionPool = new ConnectionPool();
+
+        ExecutorService executor = Executors.newFixedThreadPool(7);
+
+        for (int i = 0; i < 7; i++) {
+            executor.submit(new ConnectionTask(connectionPool));
+        }
+
+        executor.shutdown();
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+            executor.shutdownNow();
+        }
+
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            try {
+                Connection connection = connectionPool.getConnection();
+                System.out.println("Async Task got " + connection);
+                Thread.sleep(1000);
+                connectionPool.releaseConnection(connection);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        future.join();
+        System.out.println("Asynchronous task completed.");
 	}
+}
+
+
+class Connection {
+    private static int idCounter = 1;
+    private final int id;
+
+    public Connection() {
+        this.id = idCounter++;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Connection-" + id;
+    }
+}
+
+class ConnectionPool {
+    private final BlockingQueue<Connection> pool;
+    private static final int MAX_SIZE = 5;
+    private static AtomicBoolean initialized = new AtomicBoolean(false);
+
+    public ConnectionPool() {
+        this.pool = new LinkedBlockingQueue<>(MAX_SIZE);
+    }
+
+    public Connection getConnection() throws InterruptedException {
+        if (!initialized.getAndSet(true)) {
+            initializePool();
+        }
+        return pool.take();
+    }
+
+    public void releaseConnection(Connection connection) {
+        try {
+            pool.put(connection);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void initializePool() {
+        for (int i = 0; i < MAX_SIZE; i++) {
+            pool.offer(new Connection());
+        }
+        System.out.println("Connection pool initialized with " + MAX_SIZE + " connections.");
+    }
+}
+
+class ConnectionTask implements Runnable {
+    private final ConnectionPool connectionPool;
+
+    public ConnectionTask(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Connection connection = connectionPool.getConnection();
+            System.out.println(Thread.currentThread().getName() + " got " + connection);
+            Thread.sleep(2000);
+            System.out.println(Thread.currentThread().getName() + " released " + connection);
+            connectionPool.releaseConnection(connection);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
 /* 
 switch all print with logger
-10
-Using reflection extract information(modifiers, return types, parameters, etc) about fields, constructors, methods. Create object and call method using the only reflection.
-11
-Create 2 Threads using Runnable and Thread.
-Create Connection Pool. Use collection from java.util.concurrent package. Connection class may be mocked. The pool should be threadsafe and lazy initialized.
-Initialize pool with 5 sizes. Load Connection Pool using threads and Thread Pool(7 threads). 5 threads should be able to get the connection. 2 Threads should wait for the next available connection. The program should wait as well.
-Implement 4th part but with IFuture and CompletableStage.
 */
